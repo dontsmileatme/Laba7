@@ -29,7 +29,6 @@ public class RequestReader implements Callable<String> {
     @Override
     public String call() {
         try {
-
             SocketChannel channel = (SocketChannel) key.channel();
             byte[] bytes = connection.read(channel);
             key.channel().register(selector, SelectionKey.OP_WRITE);

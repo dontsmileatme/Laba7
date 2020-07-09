@@ -28,9 +28,9 @@ public class DBHumans {
         ResultSet rs = statement.executeQuery(sql);
         while (rs.next()) {
             HumanBeing human = new HumanBeing();
+            human.setName(rs.getString("name"));
             human.setId(rs.getLong("id"));
             human.setOwner(rs.getString("owner"));
-            human.setName(rs.getString("name"));
             HumanBeing.Coordinates coordinates = human.new Coordinates();
             coordinates.setX(rs.getDouble("x"));
             coordinates.setY(rs.getLong("y"));

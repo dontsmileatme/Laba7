@@ -36,6 +36,7 @@ public class Server {
             ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
             this.maxThreads = maxThreads;
             System.out.println("Сервер запущен.");
+            System.out.println("\nВведите 'save' для сохранения коллекции в базе данных или 'exit' для выхода:");
 
             while (true) {
                 selector.select();

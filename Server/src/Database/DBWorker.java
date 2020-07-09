@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class DBWorker {
     private final String URL = "jdbc:postgresql://pg:5432/studs";
     private final String USER = "s285709";
-    private final String PASSWORD = "******";
+    private final String PASSWORD = "rwg580";
     //private final String URL = "jdbc:postgresql://localhost:5432/studs";
     //private final String USER = "postgres";
     //private final String PASSWORD = "pang";

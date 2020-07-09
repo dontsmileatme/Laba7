@@ -30,7 +30,6 @@ public class Clear implements Commandable {
                         .filter(h -> h.isOwner(user))
                         .count();
                 HumanBeingCollection.getCollection().removeIf(h -> (h.getOwner().equals(user)));
-
                 return "Количество удалённых элементов из коллекции: " + deleted + "\n";
             } else return "В коллекции нет элементов, принадлежащих вам. \n";
         } else return "Коллекция пустая." + "\n";

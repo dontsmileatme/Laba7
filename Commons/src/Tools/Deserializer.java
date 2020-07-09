@@ -8,6 +8,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class Deserializer {
     public static <T extends Serializable> T toDeserialize(byte[] bytes, Class<T> clazz) {
@@ -39,6 +41,8 @@ public class Deserializer {
                 return 2;
             } else if (UserShell.class.isInstance(object)) {
                 return 3;
+            } else if  (ArrayList.class.isInstance(object)) {
+                return 4;
             }
         } catch (Exception e) {
             e.printStackTrace();

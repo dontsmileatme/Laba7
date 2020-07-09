@@ -24,8 +24,8 @@ public class Client implements Runnable {
     private static final int msToReconnect = 3000;
     private static int attempts = 0;
     static final int PORT = 1999;
-    private String login;
-    private String password;
+    private static String login;
+    private static String password;
 
     @Override
     public void run() {
@@ -199,5 +199,13 @@ public class Client implements Runnable {
             System.out.println(answer);
         } else return true;
         return false;
+    }
+
+    public static String getLogin() {
+        return login;
+    }
+
+    public static String getPassword() {
+        return password;
     }
 }

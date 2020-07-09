@@ -1,17 +1,20 @@
 package Server;
 
+import Collection.HumanBeingCollection;
 import Commands.Command;
 import Data.CommandShell;
 import Data.CommandShellsBundle;
 import Data.UserShell;
 import Database.DBUsers;
 import Database.DBWorker;
+import Human.HumanBeing;
 import Tools.Deserializer;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 public class CommandExecutor implements Callable<String> {
@@ -30,6 +33,8 @@ public class CommandExecutor implements Callable<String> {
             return executeScript();
         } else if (flag == 3) {
             return login();
+        } else if (flag == 4) {
+            return id();
         } else return null;
     }
 
@@ -69,5 +74,26 @@ public class CommandExecutor implements Callable<String> {
         DBUsers users = DBWorker.getUsers();
         UserShell userShell = Deserializer.toDeserialize(bytes, UserShell.class);
         return users.login(userShell);
+    }
+
+    public String id() {
+        ArrayList<String> uai = Deserializer.toDeserialize(bytes, ArrayList.class);
+        String user = uai.get(0);
+        long id = Long.parseLong(uai.get(1));
+        boolean exist = false;
+        boolean belong = false;
+
+        for (HumanBeing h : HumanBeingCollection.getCollection()) {
+            if (h.getId() == id) {
+                exist = true;
+                if (h.getOwner().equals(user)) belong = true;
+            }
+        }
+        String res = "";
+        if (exist && belong) res = "1";
+        if (exist && !belong) res = "2";
+        if (!exist) res = "3";
+
+        return res;
     }
 }

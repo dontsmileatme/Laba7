@@ -20,7 +20,6 @@ public class Remove_by_id implements Commandable {
 
     @Override
     public String execute(String arg, HumanBeing human, String user) {
-        human.setOwner(user);
         int size1 = HumanBeingCollection.getSize();
         HumanBeingCollection.getCollection().removeIf(p -> (p.getId() == Long.parseLong(arg) && p.getOwner().equals(user)));
         int size2 = HumanBeingCollection.getSize();

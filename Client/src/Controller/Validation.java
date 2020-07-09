@@ -1,12 +1,17 @@
 package Controller;
 
+import Client.Client;
+import ClientConnection.Connection;
 import Human.HumanBeing;
+import Tools.Deserializer;
 import Tools.HumanCreation;
 import Tools.ReaderFromScript;
+import Tools.Serializer;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -49,8 +54,15 @@ public class Validation {
                 return true;
             case "update":
                 this.idCheck();
-                this.addHuman();
-                return true;
+                if (this.isBelonging()) {
+                    this.addHuman();
+                    return true;
+                } else {
+                    isReadyForSend = false;
+                    commandName = null;
+                    commandArg = null;
+                    return false;
+                }
             case "add":
             case "add_if_max":
             case "remove_greater":
@@ -89,6 +101,35 @@ public class Validation {
                 isReadyForSend = true;
             }
         }
+    }
+
+    public boolean isBelonging() throws IOException {
+        Connection connection = new Connection();
+        Socket socket = Client.socket;
+        ArrayList<String> userAndId = new ArrayList<>();
+        userAndId.add(0, Client.getLogin());
+        userAndId.add(1, commandArg);
+
+        connection.write(Serializer.toSerialize(userAndId), socket);
+        byte[] bytes = connection.read(socket);
+        String response = Deserializer.toDeserialize(bytes, String.class);
+        userAndId.clear();
+        boolean result = false;
+
+        switch (response) {
+            case "1":
+                System.out.println("Человек вам принадлежит.");
+                result = true;
+                break;
+            case "2":
+                System.out.println("Человек вам не принадлежит.");
+                result = false;
+                break;
+            case "3":
+                System.out.println("Нет человека с таким 'id'.");
+                result = false;
+                break;
+        } return result;
     }
 
     private void scriptCheck() throws IOException {
